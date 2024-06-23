@@ -48,7 +48,11 @@ export const registerController = async (req, res) => {
 
   } catch (error) {
     console.log(error);
-    res.status(500).json({ error: "Internal Server Error" });
+    return res.status(400).send({
+      success: false,
+      message: "error in registration"
+    });
+   
   }
 }
 
