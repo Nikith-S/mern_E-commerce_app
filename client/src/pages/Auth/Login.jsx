@@ -1,17 +1,21 @@
+
+
 import React, { useState } from "react";
 import Layout from "./../../components/Layout/Layout";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import toast from "react-hot-toast";
 import "../../styles/AuthStyles.css";
 import { useAuth } from "../../context/auth";
+import { Link } from "react-router-dom";
 
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
+  const location = useLocation();
 
-  const { auth, setAuth } = useAuth(); 
+  const { setAuth } = useAuth();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -20,26 +24,25 @@ const Login = () => {
         email,
         password,
       });
-      if (res && res.data.success) {
-        toast.success(res.data && res.data.message);
+      if (res.data.success) {
+        toast.success(res.data.message);
         setAuth({
-          ...auth,
           user: res.data.user,
           token: res.data.token,
         });
         localStorage.setItem("auth", JSON.stringify(res.data));
-        navigate("/");
+        navigate(location.state?.from || "/");
       } else {
         toast.error(res.data.message);
       }
     } catch (error) {
-      console.log(error);
+      console.error("Login error:", error);
       toast.error("Something went wrong");
     }
   };
 
   return (
-    <Layout title="Login - Ecommer App">
+    <Layout title="Login - Ecommerce App">
       <div className="form-container" style={{ minHeight: "90vh" }}>
         <form onSubmit={handleSubmit}>
           <h4 className="title">LOGIN FORM</h4>
@@ -65,6 +68,13 @@ const Login = () => {
               required
             />
           </div>
+          {/* <div className="mb-3">
+          <button type="submit" className="btn btn-primary" onClick={() => navigate('/forgot-password')}>
+           forgotPassword
+          </button>
+          </div> */}
+          <Link to= "/forgot-password">forgotPassword?</Link>
+          
           <button type="submit" className="btn btn-primary">
             LOGIN
           </button>
@@ -75,3 +85,4 @@ const Login = () => {
 };
 
 export default Login;
+
