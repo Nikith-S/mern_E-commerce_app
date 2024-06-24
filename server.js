@@ -6,6 +6,7 @@ import morgan from 'morgan';
 import cors from 'cors';
 
 import authRoutes from './routes/authRoute.js';
+import categoryRoutes from './routes/categoryRoutes.js'
 
 
 dotenv.config();
@@ -20,6 +21,7 @@ app.use(cors())
 
 
 app.use('/api/v1/auth',authRoutes )
+app.use('/api/v1/category',categoryRoutes)
 
 
 const PORT = process.env.PORT || 8080;
