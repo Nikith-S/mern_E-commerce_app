@@ -12,7 +12,7 @@ const Profile = () => {
         </div>
         <div className="col-md-9">
 
-            <h1>Your Profile</h1>
+            <h1>Your Profile- DashBoard </h1>
         </div>
     </div>
     </div>

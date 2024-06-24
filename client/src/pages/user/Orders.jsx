@@ -12,7 +12,7 @@ const Orders = () => {
             </div>
             <div className="col-md-9">
 
-                <h1>All Orders</h1>
+                <h1>All Orders DashBoard</h1>
             </div>
         </div>
         </div>
