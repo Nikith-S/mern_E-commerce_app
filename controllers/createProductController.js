@@ -49,7 +49,8 @@ export const createProductController = async (req, res) => {
 export const getProductController = async (req, res) => {
   try {
     const products = await productModel
-      .find({}).populate('category')
+      .find({})
+      .populate("category")
       .select("-photo")
       .limit(12)
       .sort({ createdAt: -1 });
@@ -74,24 +75,42 @@ export const getProductController = async (req, res) => {
   }
 };
 
+export const getSingleProduct = async (req, res) => {
+  try {
+    const product = await productModel
+      .findOne({ slug: req.params.slug })
+      .select("-photo")
+      .populate("category");
 
-export const getSingleProduct = async(req, res) => {
-try{
-const product = await productModel.findOne({slug:req.params.slug}).select("-photo").populate("category")
+    res.status(200).send({
+      success: true,
+      message: "Slug product fetched",
+      product,
+    });
+  } catch (error) {
+    console.log(error);
+    res.status(500).send({
+      success: false,
+      message: "Error in getting  singleProduct",
+      error,
+    });
+  }
+};
 
-res.status(200).send({
-  success:true,
-  message:"Slug product fetched",
-  product
-})
+export const productPhotoController = async (req, res) => {
+  try {
+    const product = await productModel.findById(req.params.pid).select("photo");
 
-
-}
-catch{
-
-
-
-}
-
-  
-}
+    if (product.photo.data) {
+      res.set("Content-type", product.photo.contentType);
+      return res.status(200).send(product.photo.data);
+    }
+  } catch (error) {
+    console.log(error);
+    res.status(500).send({
+      success: false,
+      message: "Error in getting product poto",
+      error,
+    });
+  }
+};
