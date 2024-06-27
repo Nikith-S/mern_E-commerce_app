@@ -17,4 +17,6 @@ router.post(
 router.get("/get-product", getProductController);
 router.get("/get-product/:slug", getSingleProduct);
 
+router.get('/product-photo/:pid', productPhotoController)
+
 export default router;

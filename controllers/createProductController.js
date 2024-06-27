@@ -49,7 +49,7 @@ export const createProductController = async (req, res) => {
 export const getProductController = async (req, res) => {
   try {
     const products = await productModel
-      .find({})
+      .find({}).populate('category')
       .select("-photo")
       .limit(12)
       .sort({ createdAt: -1 });
@@ -75,8 +75,23 @@ export const getProductController = async (req, res) => {
 };
 
 
-export const getSingleProduct = () => {
+export const getSingleProduct = async(req, res) => {
+try{
+const product = await productModel.findOne({slug:req.params.slug}).select("-photo").populate("category")
 
+res.status(200).send({
+  success:true,
+  message:"Slug product fetched",
+  product
+})
+
+
+}
+catch{
+
+
+
+}
 
   
 }
