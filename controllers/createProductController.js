@@ -2,6 +2,7 @@ import { error } from "console";
 import productModel from "../models/productModel.js";
 import fs from "fs";
 import slugify from "slugify";
+import productModel from "../models/productModel.js";
 
 export const createProductController = async (req, res) => {
   try {
@@ -109,8 +110,34 @@ export const productPhotoController = async (req, res) => {
     console.log(error);
     res.status(500).send({
       success: false,
-      message: "Error in getting product poto",
+      message: "Error in getting product photo",
       error,
     });
   }
 };
+
+
+
+export const deleteProductController = async(req, res) => {
+try{
+
+  const productModel = await productModel(req.params.pid).select(-"photo")
+  res.status(200).send({
+    success:true,
+    message:"product deleted successfully",
+  })
+
+
+}
+catch(error){
+  console.log(error);
+    res.status(500).send({
+      success: false,
+      message: "Error in deleting products",
+      error,
+    });
+
+
+}
+
+}
