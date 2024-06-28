@@ -19,7 +19,7 @@ const Policy = () => {
           <p>add privacy policy</p>
           <p>add privacy policy</p>
           <p>add privacy policy</p>
-          <p>add privacy policy</p>
+          <p>if you have any privacy policy contact me:</p>
         </div>
       </div>
     </Layout>

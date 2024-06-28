@@ -14,7 +14,7 @@ const About = () => {
         </div>
         <div className="col-md-4">
           <p className="text-justify mt-2">
-            Write About Later
+            Write About Me Later
           </p>
         </div>
       </div>
