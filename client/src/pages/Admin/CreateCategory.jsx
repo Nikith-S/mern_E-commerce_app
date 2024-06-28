@@ -37,7 +37,7 @@ const CreateCategory = () => {
       }
     } catch (error) {
       console.log(error);
-      toast.error('Something went wrong in category');
+      toast.error('Something went wrong in getting all category');
     }
   };
 
@@ -51,7 +51,7 @@ const CreateCategory = () => {
     
     } catch (error) {
       console.log(error);
-      toast.error('There is some problem in update function');
+      toast.error('There is some problem in updatefunction');
     }
   };
 

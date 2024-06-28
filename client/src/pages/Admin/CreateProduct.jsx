@@ -13,7 +13,7 @@ const CreateProduct = () => {
     
     <div className="col-md-9">
     
-        <h1>Create Product</h1>
+        <h1>CreateProduct</h1>
     </div>
     </div>
     </div>
