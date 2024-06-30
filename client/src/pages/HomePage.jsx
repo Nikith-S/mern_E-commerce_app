@@ -1,12 +1,89 @@
-import React from 'react'
-import Layout from '../components/Layout/Layout'
+import React, { useEffect, useState } from 'react';
+import Layout from '../components/Layout/Layout';
+import axios from 'axios';
+import { Checkbox } from 'antd';
 
-function HomePage() {
+const HomePage = () => {
+  const [products, setProducts] = useState([]);
+  const [categories, setCategories] = useState([]);
+  const [checked, setChecked] = useState([]);
+
+  const getAllCategory = async () => {
+    try {
+      const { data } = await axios.get(`${process.env.REACT_APP_API}/api/v1/category/getcategory`);
+      if (data?.success) {
+        setCategories(data?.category);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    getAllCategory();
+  }, []);
+
+  const getAllProduct = async () => {
+    try {
+      const { data } = await axios.get(`${process.env.REACT_APP_API}/api/v1/product/get-product`);
+      if (data.success) {
+        setProducts(data.products);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const handleFilter = (value, id) => {
+    let all = [...checked];
+    if (value) {
+      all.push(id);
+    } else {
+      all = all.filter(c => c !== id);
+    }
+    setChecked(all);
+  };
+
+  useEffect(() => {
+    getAllProduct();
+  }, []);
+
   return (
-    <Layout title="Ecommerce-app">
-        <h1>Home Page</h1>
+    <Layout title="All Products- Best Offer">
+      <div className="row mt-3">
+        <div className="col-md-3">
+          <h4 className='text-center'>Filter By Category</h4>
+          {categories?.map(c => (
+            <div key={c._id} className="d-flex-column">
+              <Checkbox onChange={(e) => handleFilter(e.target.checked, c._id)}>
+                {c.name}
+              </Checkbox>
+            </div>
+          ))}
+        </div>
+        <div className="col-md-9">
+          <h1 className='text-center'>All Products</h1>
+          <div className="d-flex flex-wrap">
+            {products?.map((p) => (
+              <div key={p._id} className="card m-2" style={{ width: "18rem" }}>
+                <img
+                  src={`${process.env.REACT_APP_API}/api/v1/product/product-photo/${p._id}`}
+                  className="card-img-top"
+                  alt={p.name}
+                />
+                <div className="card-body">
+                  <h5 className="card-title">{p.name}</h5>
+                  <p className="card-text">{p.description}</p>
+                  <button className='btn btn-primary ms-1'>More Details</button>
+                  <button className='btn btn-secondary ms-1'>ADD TO CART</button>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
     </Layout>
-  )
-}
+  );
+};
 
-export default HomePage
+export default HomePage;
