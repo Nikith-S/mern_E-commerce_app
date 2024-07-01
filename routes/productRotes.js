@@ -9,6 +9,7 @@ import { getSingleProduct } from "../controllers/createProductController.js";
 import { productPhotoController } from "../controllers/createProductController.js";
 import { updateProductController } from "../controllers/createProductController.js"
 import { productFiltersController } from "../controllers/createProductController.js";
+import { productCountController } from "../controllers/createProductController.js";
 
 import formidable from "express-formidable";
 
@@ -38,5 +39,8 @@ router.get("/product-photo/:pid", productPhotoController);
 router.delete("/delete-product/:pid", deleteProductController);
 
 router.post("/product-filters", productFiltersController);
+
+
+router.get('/product-count', productCountController)
 
 export default router;

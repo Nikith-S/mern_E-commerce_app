@@ -179,7 +179,6 @@ export const updateProductController = async (req, res) => {
   }
 };
 
-
 export const productFiltersController = async (req, res) => {
   try {
     const { checked, radio } = req.body;
@@ -196,6 +195,23 @@ export const productFiltersController = async (req, res) => {
     res.status(400).send({
       success: false,
       message: "Error WHile Filtering Products",
+      error,
+    });
+  }
+};
+
+export const productCountController = async (req, res) => {
+  try {
+    const total = await productModel.find({}).estimatedDocumentCount();
+    res.status(200).send({
+      success: true,
+      total,
+    });
+  } catch (error) {
+    console.log(error);
+    res.status(400).send({
+      success: false,
+      message: "Error WHile product count",
       error,
     });
   }
