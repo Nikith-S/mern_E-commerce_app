@@ -3,6 +3,7 @@ import { Link, NavLink    } from 'react-router-dom';
 import { GiShop } from "react-icons/gi";
 import { useAuth } from '../../context/auth';
 import toast from 'react-hot-toast';
+import SearchInpyut from '../Form/SearchInpyut';
 
 function Header() {
 
@@ -34,6 +35,7 @@ toast.success("logout Successfully");
 
 
       <ul className="navbar-nav ms-auto mb-2 mb-lg-0">
+        <SearchInpyut/>
         <li className="nav-item">
           <NavLink    className="nav-link  "  to="/">Home</NavLink>
         </li>
