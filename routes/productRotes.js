@@ -7,9 +7,10 @@ import {
 import { getProductController } from "../controllers/createProductController.js";
 import { getSingleProduct } from "../controllers/createProductController.js";
 import { productPhotoController } from "../controllers/createProductController.js";
-import { updateProductController } from "../controllers/createProductController.js"
+import { updateProductController } from "../controllers/createProductController.js";
 import { productFiltersController } from "../controllers/createProductController.js";
 import { productCountController } from "../controllers/createProductController.js";
+import { productListController } from "../controllers/createProductController.js";
 
 import formidable from "express-formidable";
 
@@ -40,7 +41,8 @@ router.delete("/delete-product/:pid", deleteProductController);
 
 router.post("/product-filters", productFiltersController);
 
+router.get("/product-count", productCountController);
 
-router.get('/product-count', productCountController)
+router.get("/product-list/:page", productListController);
 
 export default router;

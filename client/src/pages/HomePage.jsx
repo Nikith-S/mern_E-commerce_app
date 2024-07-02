@@ -9,6 +9,10 @@ const HomePage = () => {
   const [categories, setCategories] = useState([]);
   const [checked, setChecked] = useState([]);
   const [radio, setRadio] = useState([]);
+  const [total, setTotal] = useState(0);
+  const [page, setPage] = useState(1);
+  const [loading, setLoading] = useState(false);
+
   const getAllCategory = async () => {
     try {
       const { data } = await axios.get(`${process.env.REACT_APP_API}/api/v1/category/getcategory`);
@@ -22,15 +26,47 @@ const HomePage = () => {
 
   useEffect(() => {
     getAllCategory();
+    getTotal();
+    getAllProduct();
   }, []);
 
   const getAllProduct = async () => {
     try {
-      const { data } = await axios.get(`${process.env.REACT_APP_API}/api/v1/product/get-product`);
+      setLoading(true);
+      const { data } = await axios.get(`${process.env.REACT_APP_API}/api/v1/product/product-list/${page}`);
+      setLoading(false);
       if (data.success) {
         setProducts(data.products);
       }
     } catch (error) {
+      setLoading(false);
+      console.log(error);
+    }
+  };
+
+  const getTotal = async () => {
+    try {
+      const { data } = await axios.get(`${process.env.REACT_APP_API}/api/v1/product/product-count`);
+      setTotal(data.total);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    if (page > 1) {
+      loadMore();
+    }
+  }, [page]);
+
+  const loadMore = async () => {
+    try {
+      setLoading(true);
+      const { data } = await axios.get(`${process.env.REACT_APP_API}/api/v1/product/product-list/${page}`);
+      setLoading(false);
+      setProducts(prevProducts => [...prevProducts, ...data.products]);
+    } catch (error) {
+      setLoading(false);
       console.log(error);
     }
   };
@@ -46,33 +82,21 @@ const HomePage = () => {
   };
 
   useEffect(() => {
-   if(!checked.length || !radio.length) getAllProduct();
- 
-  }, [checked.length,radio.length]);
-
+    if (!checked.length && !radio.length) getAllProduct();
+  }, [checked.length, radio.length]);
 
   useEffect(() => {
-   if(checked.length || radio.length)  filterProduct();
-   
+    if (checked.length || radio.length) filterProduct();
   }, [checked, radio]);
 
-
-  // get filter produt
-
-
-const filterProduct = async() => {
-  try{
-const {data}= await axios.post(`${process.env.REACT_APP_API}/api/v1/product/product-filters`,{checked, radio});
-
-setProducts(data?.products)
-
-  }
-  catch(error){
-  console.log(error)
-
-  }
-
-}
+  const filterProduct = async () => {
+    try {
+      const { data } = await axios.post(`${process.env.REACT_APP_API}/api/v1/product/product-filters`, { checked, radio });
+      setProducts(data?.products);
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   return (
     <Layout title="All Products- Best Offer">
@@ -86,23 +110,18 @@ setProducts(data?.products)
               </Checkbox>
             </div>
           ))}
-           <h4 className='text-center mt-4'>Filter By Price</h4>
-        
-            <div className="d-flex-column">
-              <Radio.Group onChange={e => setRadio(e.target.value)}>
-            {Prices?.map(p => (
-            <div key = {p._id}>
-              <Radio value={p.array}>{p.name}</Radio>
-              </div>
-            ))}
-
-              </Radio.Group>
-             
-            </div>
-
-            <div className="d-flex flex-column"></div>
-            <button className='btn btn-danger' onClick={() => window.location.reload()}>RESET FILTER</button>
-
+          <h4 className='text-center mt-4'>Filter By Price</h4>
+          <div className="d-flex-column">
+            <Radio.Group onChange={e => setRadio(e.target.value)}>
+              {Prices?.map(p => (
+                <div key={p._id}>
+                  <Radio value={p.array}>{p.name}</Radio>
+                </div>
+              ))}
+            </Radio.Group>
+          </div>
+          <div className="d-flex flex-column"></div>
+          <button className='btn btn-danger' onClick={() => window.location.reload()}>RESET FILTER</button>
         </div>
         <div className="col-md-9">
           <h1 className='text-center'>All Products</h1>
@@ -116,13 +135,23 @@ setProducts(data?.products)
                 />
                 <div className="card-body">
                   <h5 className="card-title">{p.name}</h5>
-                  <p className="card-text">{p.description.substring(0,30)}</p>
+                  <p className="card-text">{p.description.substring(0, 30)}</p>
                   <p className="card-text">${p.price}</p>
                   <button className='btn btn-primary ms-1'>More Details</button>
                   <button className='btn btn-secondary ms-1'>ADD TO CART</button>
                 </div>
               </div>
             ))}
+          </div>
+          <div className="m-2 p-2">
+            {products && products.length < total && (
+              <button className='btn btn-warning' onClick={(e) => {
+                e.preventDefault();
+                setPage(page + 1);
+              }}>
+                {loading ? 'loading...' : 'Loadmore'}
+              </button>
+            )}
           </div>
         </div>
       </div>
