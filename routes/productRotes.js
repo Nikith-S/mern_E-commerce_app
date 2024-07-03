@@ -48,4 +48,7 @@ router.get("/product-list/:page", productListController);
 
 router.get("/search/:keyword", searchProductController);
 
+
+router.get("/related-product/:pid/:cid", realtedProductController);
+
 export default router;
