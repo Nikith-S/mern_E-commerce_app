@@ -288,3 +288,8 @@ export const realtedProductController = async (req, res) => {
     });
   }
 };
+
+
+
+
+
