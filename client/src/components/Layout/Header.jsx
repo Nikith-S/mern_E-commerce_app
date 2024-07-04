@@ -32,8 +32,6 @@ toast.success("logout Successfully");
 
     <div className="collapse navbar-collapse" id="navbarTogglerDemo01">
       <Link    className="navbar-brand"><GiShop /> E-commerce App </Link>
-
-
       <ul className="navbar-nav ms-auto mb-2 mb-lg-0">
         <SearchInpyut/>
         <li className="nav-item">

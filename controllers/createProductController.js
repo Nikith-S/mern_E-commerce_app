@@ -245,20 +245,20 @@ export const productListController = async (req, res) => {
 export const searchProductController = async (req, res) => {
   try {
     const { keyword } = req.params;
-    const results = await productModel
+    const resutls = await productModel
       .find({
         $or: [
           { name: { $regex: keyword, $options: "i" } },
           { description: { $regex: keyword, $options: "i" } },
         ],
       })
-      .select("--photo");
-    res.json(results);
+      .select("-photo");
+    res.json(resutls);
   } catch (error) {
     console.log(error);
     res.status(400).send({
       success: false,
-      message: "Error in search controller",
+      message: "Error In Search Product API",
       error,
     });
   }
