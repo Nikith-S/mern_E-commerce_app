@@ -51,6 +51,6 @@ router.get("/search/:keyword", searchProductController);
 
 router.get("/related-product/:pid/:cid", realtedProductController);
 
-router.get("/product-category/:slug", productCategoryController);
+// router.get("/product-category/:slug", productCategoryController);
 
 export default router;
