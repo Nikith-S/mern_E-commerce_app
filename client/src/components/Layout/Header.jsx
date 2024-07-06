@@ -5,11 +5,14 @@ import { useAuth } from '../../context/auth';
 import toast from 'react-hot-toast';
 import SearchInpyut from '../Form/SearchInpyut';
 import useCategory from '../../hooks/useCategory';
+import { useCart } from '../../context/cart';
+import {Badge} from 'antd'
 
 function Header() {
 
 const {auth,setAuth} = useAuth();
 const categories = useCategory();
+const {cart} = useCart();
  const handleLogout = () => {
 
 setAuth({
@@ -119,7 +122,9 @@ toast.success("logout Successfully");
        }
 
         <li className="nav-item">
-          <NavLink    className="nav-link" to="/cart">cart(0)</NavLink>
+       <Badge count={cart?.length} showZero>
+       <NavLink    className="nav-link" to="/cart">Cart</NavLink>
+       </Badge>
         </li>
 
       </ul>
