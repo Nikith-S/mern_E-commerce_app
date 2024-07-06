@@ -1,16 +1,21 @@
 
 
 
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import Layout from '../components/Layout/Layout';
 import { useCart } from '../context/cart';
 import { useAuth } from '../context/auth';
 import { useNavigate } from 'react-router-dom';
+import DropIn from 'braintree-web-drop-in-react';
+import axios from 'axios';
 
 const CartPage = () => {
   const { cart, setCart } = useCart();
   const { auth, setAuth } = useAuth();
   const navigate = useNavigate();
+  const [clientToken, setClientToken] = useState("");
+  const [instance, setInstance] = useState("")
+  const [loading, setLoading] = useState(false)
 
   const removeCartItem = (pid) => {
     try {
@@ -24,6 +29,23 @@ const CartPage = () => {
     }
   };
 
+    //get payment gateway token 
+
+
+    const getToken = async() => {
+      try{
+        const {data} = await axios.get(`${process.env.REACT_APP_API}/api/v1/product/braintree/token`)
+        setClientToken(data?.clientToken)
+        
+      }
+      catch(error){
+        console.log(error)
+      }
+    }
+
+    useEffect(() => {
+      getToken();
+    },[auth?.token])
 
 
   const totalPrice = () => {
@@ -41,6 +63,10 @@ const CartPage = () => {
     catch(error){
         console.log(error)
     }
+  }
+
+  const handlePayment= ()=> {
+
   }
   return (
     <Layout>
@@ -133,7 +159,7 @@ const CartPage = () => {
                   )}
                 </div>
               )}
-              {/* <div className="mt-2">
+               <div className="mt-2">
                 {!clientToken || !auth?.token || !cart?.length ? (
                   ""
                 ) : (
@@ -157,7 +183,7 @@ const CartPage = () => {
                     </button>
                   </>
                 )}
-              </div>  */}
+              </div>  
             </div>
           </div>
         </div>
