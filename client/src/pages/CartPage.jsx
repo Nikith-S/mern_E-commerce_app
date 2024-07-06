@@ -96,8 +96,8 @@ const CartPage = () => {
               <h2>Cart Summary</h2>
               <p>Total | Checkout | Payment</p>
               <hr />
-              {/* <h4>Total: {totalPrice()} </h4>
-              {auth?.user?.address ? (
+               <h4>Total: {totalPrice()} </h4>
+              {auth?.user?.address ? ( 
                 <>
                   <div className="mb-3">
                     <h4>Current Address</h4>
@@ -133,7 +133,7 @@ const CartPage = () => {
                   )}
                 </div>
               )}
-              <div className="mt-2">
+              {/* <div className="mt-2">
                 {!clientToken || !auth?.token || !cart?.length ? (
                   ""
                 ) : (
@@ -157,7 +157,7 @@ const CartPage = () => {
                     </button>
                   </>
                 )}
-              </div> */}
+              </div>  */}
             </div>
           </div>
         </div>
