@@ -5,7 +5,7 @@ import {
   deleteProductController,
 } from "../controllers/createProductController.js";
 import { getProductController } from "../controllers/createProductController.js";
-import { getSingleProduct } from "../controllers/createProductController.js";
+import { getSingleProductController } from "../controllers/createProductController.js";
 import { productPhotoController } from "../controllers/createProductController.js";
 import { updateProductController } from "../controllers/createProductController.js";
 import { productFiltersController } from "../controllers/createProductController.js";
@@ -38,7 +38,7 @@ router.put(
 );
 
 router.get("/get-product", getProductController);
-router.get("/get-product/:slug", getSingleProduct);
+router.get("/get-product/:slug", getSingleProductController);
 
 router.get("/product-photo/:pid", productPhotoController);
 

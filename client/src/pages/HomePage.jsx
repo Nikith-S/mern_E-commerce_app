@@ -6,6 +6,7 @@ import { Prices } from '../components/Prices';
 import { useNavigate } from 'react-router-dom';
 import { useCart } from '../context/cart';
 import toast from 'react-hot-toast';
+import "../styles/Homepage.css";
 
 const HomePage = () => {
   const [products, setProducts] = useState([]);

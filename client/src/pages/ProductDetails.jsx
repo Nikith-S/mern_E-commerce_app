@@ -4,6 +4,7 @@ import Layout from "./../components/Layout/Layout";
 import axios from "axios";
 import { useParams, useNavigate } from "react-router-dom";
 // import "../styles/ProductDetailsStyles.css";
+import "../styles/ProductDetailsStyles.css";
 
 const ProductDetails = () => {
   const params = useParams();
